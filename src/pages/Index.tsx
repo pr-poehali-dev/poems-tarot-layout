@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Icon from '@/components/ui/icon';
 import TarotSpread from '@/components/TarotSpread';
+import PoemsAdmin from '@/components/PoemsAdmin';
+
+const POEMS_API = 'https://functions.poehali.dev/4891cda1-7cff-4248-a5ce-bd8c32105b90';
 
 const HERO_IMG = 'https://cdn.poehali.dev/projects/863578ef-b3c4-4de5-b685-46de58c92141/files/f86d6af7-9dea-48e0-9a14-a3ab6cd155de.jpg';
 
@@ -14,42 +17,6 @@ const NAV = [
   { id: 'contacts', label: 'Контакты' },
 ];
 
-const POEMS = [
-  {
-    title: 'Я тихая гавань горной реки',
-    lines: [
-      'Я тихая гавань горной реки',
-      'В уютном покое зелени леса',
-      'Я в каплях росы  отражение звезд',
-      'Коротких ночей московского лета',
-      '',
-      'Я томная нега туманных зарниц',
-      'Прохлады обьятья рассветного неба',
-      'Я утренний шепет стройных берез',
-      'Чьи ветки качает ласково ветер',
-      '',
-      'Я воздух пропитанный духом садов',
-      'Цветочных нектаров благоуханье',
-      'Я в солнечном свете дневное тепло',
-      'Дающе вечное жизни дыханье',
-      '',
-      'Я множество птиц несмолкающий хор',
-      'С разнообразной сменой салистов',
-      'Я звуков чарующих нот колдовство',
-      'Сплетение вместе с шелестом листьев',
-      '',
-      'Я все настроения чувства и знания',
-      'Все окружение все что в нутри',
-      'Я все что в душе и потемках сознания',
-      'Все это я создаю для земного пути',
-      '',
-      'Новые сутки наполненны действом',
-      'Не повторяясь событий река',
-      'Течет в своем вечном русле безвременья',
-      'А своим состоянием я создаю глубины берега',
-    ],
-  },
-];
 
 const GALLERY = [
   { emoji: '🌙', title: 'Лунный цикл' },
@@ -86,6 +53,14 @@ const Title = ({ kicker, children }: { kicker: string; children: React.ReactNode
 
 const Index = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
+  const [poems, setPoems] = useState<{ id: number; title: string; content: string }[]>([]);
+
+  const loadPoems = () => {
+    fetch(POEMS_API).then(r => r.json()).then(setPoems).catch(() => {});
+  };
+
+  useEffect(() => { loadPoems(); }, []);
 
   return (
     <div className="min-h-screen text-foreground overflow-x-hidden">
@@ -146,15 +121,26 @@ const Index = () => {
       </section>
 
       <Section id="poems">
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <button
+            onClick={() => setAdminOpen(true)}
+            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-gold transition-colors border border-border hover:border-gold/50 rounded px-3 py-1.5"
+          >
+            <Icon name="Pencil" size={14} /> Редактировать стихи
+          </button>
+        </div>
         <Title kicker="строки из тишины">Стихи</Title>
-        <div className="max-w-2xl mx-auto">
-          {POEMS.map((p, i) => (
-            <article key={i} className="glass rounded-lg p-10">
+        <div className="max-w-2xl mx-auto space-y-8">
+          {poems.length === 0 && (
+            <p className="text-center text-muted-foreground italic">Стихи загружаются...</p>
+          )}
+          {poems.map((p) => (
+            <article key={p.id} className="glass rounded-lg p-10">
               <span className="text-gold text-3xl">❝</span>
               <h3 className="font-display text-2xl text-gold mb-6 mt-2">{p.title}</h3>
               <div>
-                {p.lines.map((l, j) => (
-                  l === ''
+                {p.content.split('\n').map((l, j) => (
+                  l.trim() === ''
                     ? <div key={j} className="h-4" />
                     : <p key={j} className="font-serif text-lg italic text-foreground/90 leading-relaxed">{l}</p>
                 ))}
@@ -163,6 +149,7 @@ const Index = () => {
           ))}
         </div>
       </Section>
+      {adminOpen && <PoemsAdmin onClose={() => { setAdminOpen(false); loadPoems(); }} />}
 
       <Section id="tarot" className="bg-card/30">
         <Title kicker="спроси у карт">Интерактивный расклад</Title>
