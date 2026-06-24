@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Icon from '@/components/ui/icon';
 import TarotSpread from '@/components/TarotSpread';
 
-const HERO_IMG = 'https://cdn.poehali.dev/projects/863578ef-b3c4-4de5-b685-46de58c92141/files/f86d6af7-9dea-48e0-9a14-a3ab6cd155de.jpg';
+const HERO_IMG = 'https://cdn.poehali.dev/projects/863578ef-b3c4-4de5-b685-46de58c92141/files/4e3e7152-8856-42b7-8514-30df63932e93.jpg';
 
 const NAV = [
   { id: 'hero', label: 'Главная' },
