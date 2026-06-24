@@ -70,7 +70,7 @@ const Index = () => {
       <header className="fixed top-0 inset-x-0 z-50 glass">
         <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
           <a href="#hero" className="font-display text-xl tracking-widest text-gold flex items-center gap-2">
-            <span className="text-2xl">☽</span> Лунная Чернильница
+            <span className="text-2xl">☀</span> Солнечная Чернильница
           </a>
           <nav className="hidden lg:flex gap-7">
             {NAV.map((n) => (
@@ -99,7 +99,7 @@ const Index = () => {
           <div className="text-center md:text-left animate-fade-up">
             <p className="font-script text-4xl text-gold mb-4">стихи · таро · мечты</p>
             <h1 className="font-display text-5xl md:text-7xl leading-tight gold-gradient mb-6">
-              Лунная Чернильница
+              Солнечная Чернильница
             </h1>
             <p className="font-serif text-xl text-foreground/80 leading-relaxed mb-8 max-w-md mx-auto md:mx-0">
               Пространство, где рождаются стихи и оживают карты таро. Загляни внутрь — и узнай, о чём шепчет ночь.
@@ -219,7 +219,7 @@ const Index = () => {
       </Section>
 
       <footer className="py-10 text-center border-t border-gold/20">
-        <p className="font-display text-gold tracking-widest text-lg mb-2">☽ Лунная Чернильница</p>
+        <p className="font-display text-gold tracking-widest text-lg mb-2">☀ Солнечная Чернильница</p>
         <p className="font-serif text-muted-foreground text-sm">Стихи и таро · {new Date().getFullYear()}</p>
       </footer>
     </div>
